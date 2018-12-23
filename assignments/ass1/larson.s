@@ -15,7 +15,7 @@ mov r6, #3
 mov r7, #20
 mov r8, #4
 
-innerloop:
+loop:
 // shift r1 by r7 to move to next LED
 mov r4, r1, lsl r7
 
@@ -44,7 +44,7 @@ mov r8, r6
 add r7, #1
 subs r6, r6, #1
 cmp r6, #0
-bge innerloop
+bge loop
 b up
 
 up:
@@ -52,7 +52,7 @@ mov r8, r6
 sub r7, #1
 add r6, #1
 cmp r6, #3
-ble innerloop
+ble loop
 b down
 
 FSEL0: .word 0x20200000
