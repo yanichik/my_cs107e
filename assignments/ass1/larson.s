@@ -1,4 +1,4 @@
-.equ DELAY, 0x2f0000
+.equ DELAY, 0x3f0000
 
 // configure GPIO 20-23 for output
 ldr r0, FSEL2
@@ -10,10 +10,11 @@ str r1, [r0]
 // left shift to set bits 20-23
 mov r1, #1
 
-outerloop:
+# outerloop:
 // initialize count and starting shift registers
-mov r6, #4
+mov r6, #3
 mov r7, #20
+mov r8, #4
 
 innerloop:
 // shift r1 by r7 to move to next LED
@@ -33,11 +34,52 @@ wait1:
 ldr r0, CLR0
 str r4, [r0]
 
+cmp r6, r8
+blt down
+
+cmp r6, r8
+bgt up
+
+down:
+mov r8, r6
 add r7, #1
 subs r6, r6, #1
-bne innerloop
+cmp r6, #0
+bge innerloop
+b up
 
-b outerloop
+up:
+mov r8, r6
+sub r7, #1
+add r6, #1
+cmp r6, #3
+ble innerloop
+b down
+
+
+# innerloop2:
+# // shift r1 by r7 to move to next LED
+# mov r4, r1, lsl r7
+
+# // set GPIO high
+# ldr r0, SET0
+# str r4, [r0]
+
+# // delay
+# mov r5, #DELAY
+# wait2:
+#     subs r5, #1
+#     bne wait2
+
+# // set GPIO low
+# ldr r0, CLR0
+# str r4, [r0]
+
+# sub r7, #1
+# subs r6, r6, #1
+# bne innerloop2
+
+# b outerloop
 
 FSEL0: .word 0x20200000
 FSEL1: .word 0x20200004
