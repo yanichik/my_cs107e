@@ -1,3 +1,3 @@
 # my_cs107e
 
-### Stanford's cs107e is intro to bare metal programming using Raspberry Pi
+### Stanford's course on bare metal programming with Raspberry Pi
