@@ -9,5 +9,5 @@ larson.o:	larson.s
 clean:
 	rm larson.bin larson.o
 
-larson:
+larson:	
 	rpi-install.py larson.bin
