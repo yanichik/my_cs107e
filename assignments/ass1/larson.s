@@ -1,16 +1,19 @@
-.equ DELAY, 0x3f0000
+.globl _start
+_start:
+
+.equ DELAY, 0x0f0000
 
 // configure GPIO 20-23 for output
 ldr r0, FSEL2
-mov r1, #0x049
-mov r2, #0x200
+mov r1, #0x049	// sets GPIOs 20-22
+mov r2, #0x200 	// sets GPIOs 23
 add r1, r1, r2
 str r1, [r0]
 
-// left shift to set bits 20-23
+// set r1 to 1 for shifting operations
 mov r1, #1
 
-// initialize count and starting shift registers
+// initialize count r6, r8 (previous cnt value), and starting shift r7 at GPIO 20
 mov r6, #3
 mov r7, #20
 mov r8, #4
@@ -33,6 +36,8 @@ wait1:
 ldr r0, CLR0
 str r4, [r0]
 
+// decision tree compares current r6 val to previous
+// determines which direction LED is moving
 cmp r6, r8
 blt down
 
