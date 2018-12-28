@@ -1,1 +1,1 @@
-## scanner speed adjusted by size of DELAY varialbe
+## scanner speed adjusted by size of DELAY variable
