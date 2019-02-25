@@ -7,7 +7,7 @@
  * @return system time in microseconds
  */
 // unsigned int timer_get_time(void) {
-    
+    // return 
 // }
 
 /*
@@ -136,7 +136,6 @@ static void resetDigs(){
     for (i = 16; i < 20; ++i)
     {
         gpio_set_function(i, GPIO_FUNC_INPUT);
-        // gpio_write(i, 0);
     }
 }
 static void delay(){
@@ -146,7 +145,6 @@ static void delay(){
 void main(void) {
     volatile int i, j;
     unsigned int num, num_temp;
-    // for (i = 16; i < 28; i++) gpio_set_function(i, GPIO_FUNC_OUTPUT); // set digit & segment pins to OUTPUT
     
     char arr[10], val;
     // each represents bit pattern to light up segments to form numbers 0 thru 9
@@ -162,10 +160,7 @@ void main(void) {
     arr[9] = 0x6F;
 
     unsigned int mask = 1, temp, index, dig;
-    // gpio_write(16,1);
-    // val = arr[1];
-    // temp = val>>0;
-    num = 16;
+    num = 1054;
     dig = numdigs(num);
     resetSegs();
     while (1){
@@ -179,73 +174,15 @@ void main(void) {
             val = arr[index];
             temp = val>>0;
             for (j = 0; j < 8; ++j, temp = val>>j){
-                // dig = num%10;
                 if (mask & temp){
                     gpio_set_function(j+20, GPIO_FUNC_OUTPUT);
                     gpio_write(j+20, 0);
                 }
             }
-            // num /= 10;
             delay();
             resetSegs();
             gpio_write(GPIO_PIN16+dig-i-1, 0);
             num_temp = num_temp % (power(10,i));
-            // delay();
         }
-        // delay();
     }
-
-    // for (i = 20; i < 28; i++) gpio_write(i+20, 1);
-    // for (i = 0; i < 8; ++i, temp = val>>i){
-    //     if (mask & temp){
-    //         // gpio_set_function(i+20, GPIO_FUNC_OUTPUT);
-    //         gpio_write(i+20, 0);
-    //     }
-    // }
-
-
-    // for(i = 16; i < 20 ; i++)
-    //     gpio_set_function(i, GPIO_FUNC_OUTPUT);
-    // for(i = 20; i < 27 ; i++)
-    //     gpio_set_function(i, GPIO_FUNC_OUTPUT);
-    // // gpio_set_function(23, GPIO_FUNC_OUTPUT);
-    // // gpio_set_function(24, GPIO_FUNC_OUTPUT);
-    // while (1){
-    //     // gpio_write(10, 1);
-    //     // gpio_write(12, 1);
-    //     for(i = 16; i < 20 ; i++)
-    //         gpio_write(i, 1);
-    //     for(i = 20; i < 27; i++)
-    //         gpio_write(i, 0);
-    //     // gpio_write(24, 0);
-    //     // gpio_write(23, 0);
-    //     for (volatile int delay = 0xF0000; delay != 0; delay--);
-    //     for(i = 16; i < 20 ; i++)
-    //         gpio_write(i, 0);
-    //     for (volatile int delay = 0x0000F; delay != 0; delay--);
-    // }
 }
-// void main(void) {
-//     // set functions
-//     unsigned int mask = 7;
-//     *GP_FSEL1 &= ~((mask)<<(3*9));          // reset pin 11
-//     *GP_FSEL1 |= GPIO_FUNC_OUTPUT<<(3*9);   // set pin 11 to OUTPUT
-
-//     *GP_FSEL2 &= ~((mask)<<(3*5));          // reset pin 20
-//     *GP_FSEL2 |= GPIO_FUNC_OUTPUT<<(3*5);   // set pin 20 to OUTPUT
-
-//     *GP_FSET0 &= ~(1<<19);                  // reset SET Reg of pin 11
-//     *GP_FSET0 |=   1<<19;                   // set SET Reg of pin 11 to high
-    
-//     // *GP_CLR0 &= ~(1<<10);                  // reset SET Reg of pin 11
-//     // *GP_CLR0 |=   1<<10;                   // set SET Reg of pin 11 to high
-
-//     *GP_CLR0 &= ~(1<<25);                   // reset CLR Reg of pin 20
-//     *GP_CLR0 |=   1<<25;                    // set CLR Reg of pin 20 to high
-    
-//     // *GP_FSET0 &= ~(1<<20);                   // reset CLR Reg of pin 20
-//     // *GP_FSET0 |=   1<<20;                    // set CLR Reg of pin 20 to high
-// }
-
-
-
